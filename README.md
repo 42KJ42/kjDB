@@ -13,61 +13,72 @@ Simple easy to use MySQL / MySQLi / MariaDB PHP class that allows for **single**
 ## Sample Use
 
 ### Include This Code
->require_once __DIR__.'/includes/kjQry.php'
+```
+require_once __DIR__.'/includes/kjQry.php'
+```
 
 ### Define your server list and instantiate
 You must declare a variable with your array of servers (even if you have only one!).  For this, you have a set of '**w**'riteable servers and a set of '**r**'eadonly servers.  This is especially useful if you are replicating a DB across many readonly slaves for performance.
 
->// In this sample we only have one server that reads and writes all go to:
->$dbServerList = array(
->	"w"=>array(array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')),
->	"r"=>0
->);
+```
+// In this sample we only have one server that reads and writes all go to:
+$dbServerList = array(
+    "w"=>array(array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')),
+    "r"=>0
+);
+```
 
 If you only have one server then read and write are from the same server so set "r"=>0 (like in the above example) else include an array of read database servers like this:
 ```
 $dbServerList = array(
-	"w"=>array(array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')),
-   "r"=>array(
-       array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
-       array('host'=>'host2','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
-       array('host'=>'host3','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')
-   ));
+    "w"=>array(array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')),
+    "r"=>array(
+        array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
+        array('host'=>'host2','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
+        array('host'=>'host3','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')
+    )
+);
 ```
 If you have multiple writeable servers (masters) you can include the same way but note that it will always try to connect to the FIRST writeable server in the array (super-master) and if that fails will alternatively try a different writeable server.
 
->// Example with multiple Masters and multiple Slaves:
->$dbServerList = array(
->	"w"=>array(
->       array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
->       array('host'=>'host2','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')
->   ),
->   "r"=>array(
->       array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
->       array('host'=>'host2','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
->       array('host'=>'host3','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')
->   ));
+```
+// Example with multiple Masters and multiple Slaves:
+$dbServerList = array(
+    "w"=>array(
+        array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
+        array('host'=>'host2','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')
+    ),
+    "r"=>array(
+        array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
+        array('host'=>'host2','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname'),
+        array('host'=>'host3','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')
+    )
+);
+```
 
 After declaring your server list you should instantiate the classs - no connections will be made until queries are issued but this lets you define and set up all your database info once in a global include and use the resulting object anywhere queries are needed:
 
->// define the kjSafeDBi access class object
->$db=new \kjDB\kjSafeDBi($dbServerList);	
+```
+// define the kjSafeDBi access class object
+$db=new \kjDB\kjSafeDBi($dbServerList);	
+```
 
 ### Instantiate And Use
+```
+// any valid MySQL statement
+$qry = "call my_stored_proc('a@example.com')"; 
 
->// any valid MySQL statement
->$qry = "call my_stored_proc('a@example.com')"; 
->
->// run the sql on a 'w'rite db instance - use 'r' to select a read instance
->$result=new \kjDB\kjQry($db, 'w', $qry);  // note using the global $db declared previously
->
->// test for a valid return and use the data
->if ($result->rv!=0 && mysqli_num_rows($result->result)) {
->    $row=mysqli_fetch_assoc($result->result); // get one row - could loop through result set here
->    echo $row['id']; // do something with the data
->} else {
->    // some err to deal with!!!! 
->}
+// run the sql on a 'w'rite db instance - use 'r' to select a read instance
+$result=new \kjDB\kjQry($db, 'w', $qry);  // note using the global $db declared previously
+
+// test for a valid return and use the data
+if ($result->rv!=0 && mysqli_num_rows($result->result)) {
+    $row=mysqli_fetch_assoc($result->result); // get one row - could loop through result set here
+    echo $row['id']; // do something with the data
+} else {
+    // some err to deal with!!!! 
+}
+```
 
 ### Notes:
 - If running a MySQL statement and you dont care or dont return a row of data you can just use **if ($result->rv!=0)** and dont bother checking if rows are returned.
