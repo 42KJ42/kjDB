@@ -15,14 +15,14 @@ Simple easy to use MySQL / MySQLi / MariaDB PHP class that allows for **single**
 ## Sample Use
 
 ### Include This Code
-```
+```php
 require_once __DIR__.'/includes/kjQry.php'
 ```
 
 ### Define your server list and instantiate
 You must declare a variable with your array of servers (even if you have only one!).  For this, you have a set of '**w**'riteable servers and a set of '**r**'eadonly servers.  This is especially useful if you are replicating a DB across many readonly slaves for performance.
 
-```
+```php
 // In this sample we only have one server that reads and writes all go to:
 $dbServerList = array(
     "w"=>array(array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')),
@@ -31,7 +31,8 @@ $dbServerList = array(
 ```
 
 If you only have one server then read and write are from the same server so set "r"=>0 (like in the above example) else include an array of read database servers like this:
-```
+
+```php
 $dbServerList = array(
     "w"=>array(array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')),
     "r"=>array(
@@ -41,9 +42,10 @@ $dbServerList = array(
     )
 );
 ```
+
 If you have multiple writeable servers (masters) you can include the same way but note that it will always try to connect to the FIRST writeable server in the array (super-master) and if that fails will alternatively try a different writeable server.
 
-```
+```php
 // Example with multiple Masters and multiple Slaves:
 $dbServerList = array(
     "w"=>array(
@@ -60,13 +62,13 @@ $dbServerList = array(
 
 After declaring your server list you should instantiate the classs - no connections will be made until queries are issued but this lets you define and set up all your database info once in a global include and use the resulting object anywhere queries are needed:
 
-```
+```php
 // define the kjSafeDBi access class object
 $db=new \kjDB\kjSafeDBi($dbServerList);	
 ```
 
 ### Instantiate And Use
-```
+```php
 // any valid MySQL statement
 $qry = "call my_stored_proc('a@example.com')"; 
 
@@ -88,7 +90,7 @@ if ($result->rv!=0 && mysqli_num_rows($result->result)) {
 
 
 ## Put It All together:
-```
+```php
 require_once __DIR__.'/includes/kjQry.php'
 
 // In this sample we only have one server that reads and writes all go to:
