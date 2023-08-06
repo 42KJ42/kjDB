@@ -1,6 +1,7 @@
 # kjDB
 Simple easy to use MySQL / MySQLi / MariaDB PHP class that allows for **single** AND **mutliple replicated** db access.  Allows you to have different READ and WRITE instances of replicated databases.
 
+- Requires PHP > v7.1 and MySQL/MariaDB
 - Does not try and rewrite all the mysql functionality: I assume you can write proper MySQL statements without making you use a class member like insert(array("date"=>...)) for each type of mysql transaction.  If you are looking for a class that takes away the need to know MySQL code this is not for you.  You will need to write full SQL statements
     - This is a pet peeve of mine with other PHP MySQLi classes - I can write my own SQL statements (and prefer to use stored procedures anyway - so should you!)
 - Allows you to use stored procs on the server (highly suggested)
@@ -8,7 +9,8 @@ Simple easy to use MySQL / MySQLi / MariaDB PHP class that allows for **single**
 - Can use one single instance for read/write on local or remote machine
 - Does not sanitize any data - just deals with the DB in and out
 - Instantiates without immediately connecting read/write instances - only connects as needed
-- Once instantiation can connect to both a read AND a write server instance depending on queries that run (defined by you in your calls).
+- Once instantiation can connect to both a read AND a write server instance depending on queries that run (defined by you in your calls).  This will re-use open connections to read/write servers when possible and automatically fail to next server if can't connect to one
+- Simply add the two files 'kjQry.php' and 'kjSafeDBi.php' to your project and require 'kjQry.php'
 
 ## Sample Use
 
@@ -125,6 +127,23 @@ $result=new \kjDB\kjQry($db, 'r', $qry);  // note using the global $db declared 
 if ($result->rv!=0 && mysqli_num_rows($result->result)) {
     $row=mysqli_fetch_assoc($result->result); // get one row - could loop through result set here
     echo $row['name']; // do something with the data
+} else {
+    // some err to deal with!!!! 
+}
+
+// and still with the same initial kjDB object, do another write function that does not 
+// return any data (so dont check if rows were returned):
+
+// any valid MySQL statement
+$qry = "call my_stored_proc('a@example.com')"; 
+
+// run the sql on a 'w'rite db instance - use 'r' to select a read instance
+$result=new \kjDB\kjQry($db, 'w', $qry);  // note using the global $db declared previously
+
+// test for a valid return and use the data
+if ($result->rv!=0)) {
+    // successfully made the call but no data returned
+    // probably bad form - should return an OK field but here for example.
 } else {
     // some err to deal with!!!! 
 }
