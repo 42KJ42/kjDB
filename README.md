@@ -2,7 +2,7 @@
 
 Provided by Quantum Slice Corporation (https://Quantumslice.com)
 
-Simple easy to use MySQL / MySQLi / MariaDB PHP class that allows for **single** AND **mutliple replicated** db access.  Allows you to have different READ and WRITE instances of replicated databases.
+Simple easy to use MySQL / MySQLi / MariaDB PHP class that allows for **single** AND **mutliple replicated** db access.  Allows you to have different READ and WRITE instances of replicated databases.  We have been using this for years and decided to release for public use since nothing else seems to deal with db access in a way we like - especially for multiple replicated instances.
 
 - Requires PHP > v7.1 and MySQL/MariaDB
 - Does not try and rewrite all the mysql functionality: I assume you can write proper MySQL statements without making you use a class member like insert(array("date"=>...)) for each type of mysql transaction.  If you are looking for a class that takes away the need to know MySQL code this is not for you.  You will need to write full SQL statements
