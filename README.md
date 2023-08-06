@@ -7,7 +7,7 @@ Simple easy to use MySQL / MySQLi / MariaDB PHP class that allows for **single**
 - Allows you to use stored procs on the server (highly suggested)
 - Allows you to define multiple read and write instances of a replicated database to move read stress off master server and onto read only replicated instances if you choose
 - Can use one single instance for read/write on local or remote machine
-- Does not sanitize any data - just deals with the DB in and out
+- Does **not sanitize** any data - just deals with the DB in and out
 - Instantiates without immediately connecting read/write instances - only connects as needed
 - Once instantiation can connect to both a read AND a write server instance depending on queries that run (defined by you in your calls).  This will re-use open connections to read/write servers when possible and automatically fail to next server if can't connect to one
 - Simply add the two files 'kjQry.php' and 'kjSafeDBi.php' to your project and require 'kjQry.php'
