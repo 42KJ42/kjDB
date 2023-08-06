@@ -1,4 +1,7 @@
 # kjDB
+
+Provided by Quantum Slice Corporation (https://Quantumslice.com)
+
 Simple easy to use MySQL / MySQLi / MariaDB PHP class that allows for **single** AND **mutliple replicated** db access.  Allows you to have different READ and WRITE instances of replicated databases.
 
 - Requires PHP > v7.1 and MySQL/MariaDB
