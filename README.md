@@ -23,7 +23,7 @@ require_once __DIR__.'/includes/kjQry.php'
 ```
 
 ### Define your server list and instantiate
-You must declare a variable with your array of servers (even if you have only one!).  For this, you have a set of '**w**'riteable servers and a set of '**r**'eadonly servers.  This is especially useful if you are replicating a DB across many readonly slaves for performance.
+You must *declare a variable with your array of servers* (even if you have only one!).  For this, you have a set of '**w**'riteable servers and a set of '**r**'eadonly servers.  This is especially useful if you are replicating a DB across many readonly slaves for performance.
 
 ```php
 // In this sample we only have one server that reads and writes all go to:
