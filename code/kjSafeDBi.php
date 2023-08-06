@@ -35,12 +35,12 @@
  *	servers are picked randomly
  * 
  * 200318 - updated to fix missing { } for compatibility (version 2.1)
- * 230801 - updates for vscode intelliphense comaptibility and updated docs (version 2.2)
+ * 230801 - updates for vscode intelliphense comaptibility and updated docs (version 2.1.1)
  */
 namespace kjDB;
 
 class kjSafeDBi {
-	public static $version = '2.3';
+	public static $version = '2.1.1';
 
 	private ?\mysqli $hdW=null;	// mysql handles for writing
 	private ?\mysqli $hdR=null; 	// mysql handles for reading

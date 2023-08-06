@@ -43,7 +43,7 @@ namespace kjDB;
 require_once __DIR__.'/kjSafeDBi.php';
 
 class kjQry {
-	public static $version = "2.1";
+	public static $version = "2.1.1";
 
 	/**
 	 * Query results are stored here after query is executed.
