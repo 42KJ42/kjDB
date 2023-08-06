@@ -85,5 +85,51 @@ if ($result->rv!=0 && mysqli_num_rows($result->result)) {
 - Be sure for every new query you properly select 'w' or 'r'.  Only really important if the SQL code actually alters any data - then must use 'w' to select the writeable instance
 
 
+## Put It All together:
+```
+require_once __DIR__.'/includes/kjQry.php'
+
+// In this sample we only have one server that reads and writes all go to:
+$dbServerList = array(
+    "w"=>array(array('host'=>'localhost','user'=>'dbuser','pass'=>'dbpass','db'=>'dbname')),
+    "r"=>0
+);
+
+// define the kjSafeDBi access class object
+$db=new \kjDB\kjSafeDBi($dbServerList);	
+
+// any valid MySQL statement
+$qry = "call my_stored_proc_on_w_server('a@example.com')"; 
+
+// run the sql on a 'w'rite db instance - use 'r' to select a read instance
+$result=new \kjDB\kjQry($db, 'w', $qry);  // note using the global $db declared previously
+
+// test for a valid return and use the data
+if ($result->rv!=0 && mysqli_num_rows($result->result)) {
+    $row=mysqli_fetch_assoc($result->result); // get one row - could loop through result set here
+    echo $row['id']; // do something with the data
+} else {
+    // some err to deal with!!!! 
+}
+
+// now we can re-use the same $db object to keep running multiple statements,
+// even if some are on read and some on write instances...
+
+// any valid MySQL statement
+$qry = "call my_stored_proc_on_r_server('a@example.com')"; 
+
+// run the sql on a 'r'ead db instance - use 'r' to select a read instance
+$result=new \kjDB\kjQry($db, 'r', $qry);  // note using the global $db declared previously
+
+// test for a valid return and use the data
+if ($result->rv!=0 && mysqli_num_rows($result->result)) {
+    $row=mysqli_fetch_assoc($result->result); // get one row - could loop through result set here
+    echo $row['name']; // do something with the data
+} else {
+    // some err to deal with!!!! 
+}
+
+```
+
 #### Disclaimer
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
