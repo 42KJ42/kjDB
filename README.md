@@ -17,12 +17,12 @@ Simple easy to use MySQL / MySQLi / MariaDB PHP class that allows for **single**
 
 ## Sample Use
 
-### Include This Code
+### 1. Include This Code
 ```php
 require_once __DIR__.'/includes/kjQry.php'
 ```
 
-### Define your server list and instantiate
+### 2. Define your server list and instantiate
 You must *declare a variable with your array of servers* (even if you have only one!).  For this, you have a set of '**w**'riteable servers and a set of '**r**'eadonly servers.  This is especially useful if you are replicating a DB across many readonly slaves for performance.
 
 ```php
@@ -70,7 +70,7 @@ After declaring your server list you should instantiate the classs - no connecti
 $db=new \kjDB\kjSafeDBi($dbServerList);	
 ```
 
-### Instantiate And Use
+### 3. Instantiate And Use
 ```php
 // any valid MySQL statement
 $qry = "call my_stored_proc('a@example.com')"; 
