@@ -90,6 +90,8 @@ if ($result->rv!=0 && mysqli_num_rows($result->result)) {
 ### Notes:
 - If running a MySQL statement and you dont care or dont return a row of data you can just use **if ($result->rv!=0)** and dont bother checking if rows are returned.
 - Be sure for every new query you properly select 'w' or 'r'.  Only really important if the SQL code actually alters any data - then must use 'w' to select the writeable instance
+- After running a new \kjQry the results and inputs are stored in class vars - see kjQry.php for the available values.  Also, if \kjQry->rv returns a 0 then you can check \kjSafeDBi->error for a text error msg.
+- If you care, you can check versions of both php classes in the class vars $version.  \kjQry->version and \kjSafeDBi->version
 
 
 ## Put It All together:
