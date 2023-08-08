@@ -40,7 +40,7 @@
 namespace kjDB;
 
 class kjSafeDBi {
-	public static $version = '2.1.1';
+	public static $version = '2.1.2';
 
 	private ?\mysqli $hdW=null;	// mysql handles for writing
 	private ?\mysqli $hdR=null; 	// mysql handles for reading
@@ -126,14 +126,24 @@ class kjSafeDBi {
 
 		if ($rw=='r') {
 			$rc=mysqli_multi_query($this->hdR, $qry);
-			$result=mysqli_store_result($this->hdR); // save the result set
+			$tmp = mysqli_store_result($this->hdR); // save the result set
+			if ($tmp !== false) {
+				$result = $tmp;
+			} else {
+				$result = null;
+			}
 			while(mysqli_more_results($this->hdR)) {  
 				// changed 200318 - used the more_results test to see if more so doesnt pop warning!
 				mysqli_next_result($this->hdR);
 			} // need this to clear out any remaining result sets to avoid concurrent stored proc calls
 		} else if ($rw=='w') {
 			$rc=mysqli_multi_query($this->hdW, $qry);
-			$result=mysqli_store_result($this->hdW);
+			$tmp=mysqli_store_result($this->hdW);
+			if($tmp!==false) {
+				$result = $tmp;
+			} else {
+				$result = null;
+			}
 			while(mysqli_more_results($this->hdW)) {  
 				// changed 200318 - used the more_results test to see if more so doesnt pop warning!
 				mysqli_next_result($this->hdW);

@@ -43,7 +43,7 @@ namespace kjDB;
 require_once __DIR__.'/kjSafeDBi.php';
 
 class kjQry {
-	public static $version = "2.1.1";
+	public static $version = "2.1.2";
 
 	/**
 	 * Query results are stored here after query is executed.
@@ -72,12 +72,12 @@ class kjQry {
 	
 	/**
 	 * run a query and return results in the class variable set
-	 * @param kjSafeDBi $db
+	 * @param \kjDB\kjSafeDBi $db
 	 * @param string $type 'r' || 'w' - defaults to 'w' if not recognized for safety
 	 * @param string $qry
 	 * @return null
 	 */
-	public function  __construct(kjSafeDBi $db, string $type, string $qry) {
+	public function  __construct(\kjDB\kjSafeDBi $db, string $type, string $qry) {
 		$this->qry=$qry;
 		$this->type=$type;
 		
